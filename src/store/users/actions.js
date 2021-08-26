@@ -10,7 +10,8 @@ import {
 	USERS_DELETE_FAILURE,
     USERS_UPDATE_START,
     USERS_UPDATE_SUCCESS,
-    USERS_UPDATE_FAILURE
+    USERS_UPDATE_FAILURE,
+	ACTUAL_PAGE
 } from "./constants";
 import store from "../index";
 
@@ -77,3 +78,8 @@ export const usersUpdateFailure = (errorMessage) => ({
 	type: USERS_UPDATE_FAILURE,
 	payload: errorMessage,
 });
+
+export const actualPage = (page) => ({	
+	type: ACTUAL_PAGE,
+	payload: page
+})

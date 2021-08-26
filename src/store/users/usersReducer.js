@@ -10,7 +10,8 @@ import {
 	USERS_DELETE_FAILURE,
     USERS_UPDATE_START,
     USERS_UPDATE_SUCCESS,
-    USERS_UPDATE_FAILURE
+    USERS_UPDATE_FAILURE,
+    ACTUAL_PAGE
 } from "./constants";
 
 const initialState = {
@@ -19,6 +20,7 @@ const initialState = {
     data: [],
     errorMessage: null,
     message: null,
+    actPage: 1
 }
 
 const usersReducer = (state = initialState, action) => {
@@ -90,6 +92,11 @@ const usersReducer = (state = initialState, action) => {
             return {
                 ...state,
                 errorMessage: action.payload,
+            }
+        case ACTUAL_PAGE:
+            return {
+                ...state,
+                actPage: action.payload
             }
         default:
             return state;

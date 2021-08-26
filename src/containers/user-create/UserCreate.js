@@ -10,6 +10,9 @@ function UserCreate() {
     const handlerSubmit = (e)=>{
         e.preventDefault()
         dispatch(addUsersStartThunk({id:new Date().getTime(), name:name, address: `${address}-${city}`}))
+        setName("")
+        setAddress("")
+        setCity("")
     }
 
     return (

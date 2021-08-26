@@ -1,22 +1,31 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { usersSelector } from "../../store/users/selector";
+import { actualPageSelector, usersSelector } from "../../store/users/selector";
 import { fetchUsersStartThunk } from "../../store/users/thunks";
 import UserCreate from "../user-create/UserCreate";
 import {
     Link
   } from "react-router-dom";
+import Pagination from "../../components/pagination/Pagination";
+import { actualPage } from "../../store/users/actions";
 
 
 const UserContainer = () => {
 	const users = useSelector(usersSelector);
 	const { isFetching } = useSelector((state) => state.users);
 	const dispatch = useDispatch();
+	const actualPageData = useSelector(actualPageSelector)
+	let limit = 10;
+    let usersByPage = users.slice((actualPageData * limit) - limit, actualPageData * limit)
 
 	useEffect(() => {
 		if (isFetching === "iddle") dispatch(fetchUsersStartThunk());
 	}, [isFetching, dispatch]);
-
+	useEffect(() => {
+		if(usersByPage.length < 1){
+			dispatch(actualPage(actualPageData - 1))
+		}
+	}, [usersByPage,actualPageData,dispatch])
 	return isFetching === "loading" ? (
 		"...Loading"
 	) : (
@@ -24,10 +33,11 @@ const UserContainer = () => {
 			<h2 className="text-center">Crear Usuario</h2>
             <UserCreate />
 			<h1 className="text-center">Users</h1>
+			<Pagination />
 			<div>
-				{users &&
-					users.length > 1 &&
-					users.map((user) => (
+				{usersByPage &&
+					usersByPage.length >= 1 &&
+					usersByPage.map((user) => (
 						<div className="row p-1 mb-3 border border-1" key={user.id}>
 							<div className="col-12 col-sm-8 ">
 								<p>{user.name}</p>
