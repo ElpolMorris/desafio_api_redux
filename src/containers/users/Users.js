@@ -22,7 +22,7 @@ const UserContainer = () => {
 		if (isFetching === "iddle") dispatch(fetchUsersStartThunk());
 	}, [isFetching, dispatch]);
 	useEffect(() => {
-		if(usersByPage.length < 1){
+		if(usersByPage.length < 1 & actualPageData !== 1){
 			dispatch(actualPage(actualPageData - 1))
 		}
 	}, [usersByPage,actualPageData,dispatch])
